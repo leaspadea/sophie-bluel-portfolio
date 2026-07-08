@@ -156,14 +156,19 @@ function displayModalGallery() {
         });
     });
 
+    modalContent.appendChild(gallery);
+
+    // Ligne verte de séparation entre la galerie et le bouton.
+    const separator = document.createElement("hr");
+    separator.classList.add("modal-separator");
+    modalContent.appendChild(separator);
+
+    // Bouton "Ajouter une photo", en dernier.
     const addButton = document.createElement("button");
     addButton.textContent = "Ajouter une photo";
     addButton.classList.add("add-photo-button");
     addButton.addEventListener("click", displayAddPhotoView);
     modalContent.appendChild(addButton);
-
-
-    modalContent.appendChild(gallery);
 }
 
 function displayAddPhotoView() {
@@ -291,7 +296,7 @@ function displayAddPhotoView() {
             const newWork = await response.json();
             allWorks.push(newWork);
             displayWorks(allWorks);
-            closeModal();
+            displayModalGallery();
         } else {
             alert("Erreur lors de l'ajout du projet.");
         }

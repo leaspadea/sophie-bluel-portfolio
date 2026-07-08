@@ -199,6 +199,20 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
+## Finalisation de la modale
+- Étape OC 8.2 : après un ajout, `displayModalGallery()` (au lieu de `closeModal()`)
+  → la nouvelle image apparaît dans le portfolio ET dans la galerie de la modale,
+  sans rechargement. Cohérent avec la suppression.
+- Ligne de séparation générée en JS (`<hr class="modal-separator">`).
+- Format modale responsive : `aspect-ratio: 630 / 688` + `max-width: 630px`
+  (proportion de la maquette sans taille figée).
+- Galerie à 66,66 % de la modale malgré le padding du wrapper : `calc(66.66% + 40px)`
+  (le +40px = 2/3 du padding total 60px, pour compenser la zone rognée en border-box).
+  Même formule sur `.modal-separator` pour l'aligner sur la galerie.
+- `column-gap` ≠ `row-gap` (écart vertical > horizontal).
+
+---
+
 ## À faire ensuite
 - [ ] Validation W3C (HTML + CSS).
 - [ ] Test responsive + Chrome/Firefox.
