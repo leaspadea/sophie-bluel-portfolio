@@ -186,3 +186,14 @@ footer nav ul {
 	margin: 2em
 }
 
+.edit-banner {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  padding: 15px;
+  font-size: 16px;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

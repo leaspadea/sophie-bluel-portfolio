@@ -122,6 +122,31 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
-## À faire ensuite
-- [ ] Mode admin sur l'accueil (nav login→logout, bandeau édition, masquer filtres).
-- [ ] Modale d'ajout / suppression de projets.
+## Mode administrateur (accueil)
+
+### Détection connexion + logout
+- Nav : `<li>login</li>` remplacé par `<a href="./login.html" id="login-link">`
+  (avant : texte brut non cliquable).
+- `handleAuth()` : lit `localStorage.getItem("token")`. Si présent → connectée :
+  le lien devient "logout", clic → `removeItem("token")` + redirection accueil.
+- Appelée dans `init()`.
+
+### Interface d'édition
+- `displayAdminMode()` : crée un bandeau noir "Mode édition" (`document.body.prepend`)
+  et masque les filtres (`filters.style.display = "none"`).
+- Bandeau pleine largeur malgré `body { max-width:1140px }` : technique du
+  "full-bleed" → `width:100vw; position:relative; left:50%; transform:translateX(-50%)`.
+  (Effet de bord possible : scroll horizontal dû à la scrollbar → `overflow-x:hidden`.)
+
+### Font Awesome
+- CDN dans le `<head>` : `font-awesome/7.0.1/css/all.min.css`.
+- Icône = police (glyphe), pas image. `fa-solid` toujours gratuit ;
+  `fa-regular` limité en version gratuite (fallback : passer en `fa-solid`).
+
+---
+
+## À faire ensuite : la modale
+- [ ] Bouton crayon "modifier" qui ouvre la modale.
+- [ ] Vue galerie modale + suppression (DELETE /api/works/:id + token).
+- [ ] Vue formulaire d'ajout (FormData, POST /api/works + token, aperçu image).
+- [ ] Navigation entre vues, fermeture, rafraîchir sans recharger.

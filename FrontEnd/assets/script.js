@@ -66,12 +66,40 @@ function displayFilters(categories) {
     });
 }
 
+function displayAdminMode() {
+  const banner = document.createElement("div");
+  banner.classList.add("edit-banner");
+  banner.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Mode édition';
+  document.body.prepend(banner);
+
+  const filters = document.querySelector(".filters");
+  filters.style.display = "none";
+}
+
+function handleAuth() {
+  const token = localStorage.getItem("token");
+  const loginLink = document.querySelector("#login-link");
+
+  if (token) {
+    loginLink.textContent = "logout";
+     displayAdminMode();
+
+    loginLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      localStorage.removeItem("token");
+      window.location.href = "./index.html";
+    });
+  }
+}
+
 async function init() {
     allWorks = await fetchWorks();
     displayWorks(allWorks);
 
     const categories = await fetchCategories();
     displayFilters(categories);
+
+    handleAuth();
 }
 
 init();
