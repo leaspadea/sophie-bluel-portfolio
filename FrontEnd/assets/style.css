@@ -197,3 +197,151 @@ footer nav ul {
   left: 50%;
   transform: translateX(-50%);
 }
+.modal {
+  display: none;
+}
+
+.modal[aria-hidden="false"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-wrapper {
+  background-color: #ffffff;
+  width: 630px;
+  max-width: 90%;
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.modal-gallery figure {
+  position: relative;
+}
+
+.modal-gallery img {
+  width: 100%;
+  display: block;
+}
+
+.modal-gallery .fa-trash-can {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.add-photo-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 40px;
+  background-color: #1D6154;
+  color: #ffffff;
+  border: none;
+  border-radius: 60px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.modal-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.add-photo-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: #E8F1F6;
+  padding: 20px;
+  border-radius: 3px;
+}
+
+.upload-zone .fa-image {
+  font-size: 60px;
+  color: #B9C5CC;
+}
+
+/* On cache le vrai champ fichier (moche et impossible à styliser)... */
+.upload-zone input[type="file"] {
+  display: none;
+}
+
+/* ...et on stylise le label comme un bouton. */
+.upload-label {
+  background-color: #CBD6DC;
+  color: #306685;
+  padding: 8px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.add-photo-form label {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  color: #3D3D3D;
+}
+
+.add-photo-form input,
+.add-photo-form select {
+  height: 40px;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 0 10px;
+}
+
+.validate-button {
+  margin-top: 30px;
+  padding: 10px 0;
+  background-color: #A7A7A7;
+  color: #ffffff;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+}
+
+.upload-preview {
+  max-height: 130px;
+}

@@ -145,8 +145,40 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
-## À faire ensuite : la modale
-- [ ] Bouton crayon "modifier" qui ouvre la modale.
-- [ ] Vue galerie modale + suppression (DELETE /api/works/:id + token).
-- [ ] Vue formulaire d'ajout (FormData, POST /api/works + token, aperçu image).
-- [ ] Navigation entre vues, fermeture, rafraîchir sans recharger.
+## La modale
+
+### Ouverture / fermeture
+- Lien "modifier" créé en JS (mode admin), `portfolioTitle.after(editLink)`.
+- Squelette `<aside id="modal">` dans le HTML, caché par défaut.
+  Affichage piloté par l'attribut `aria-hidden` (true/false) + CSS
+  (`.modal[aria-hidden="false"] { display:flex }`) → gère affichage ET accessibilité.
+- Fermeture : croix, clic sur le voile (`event.target === modal`), touche Échap.
+- Notion : `event.target` (élément cliqué) vs `event.currentTarget` (porteur
+  de l'écouteur) → distinguer clic "voile" vs clic "dans la boîte".
+
+### Vue galerie + suppression
+- `displayModalGallery()` : miniatures depuis `allWorks` + corbeille par projet
+  (`data-id`). Piège rencontré : bouton "Ajouter" doit être HORS du forEach.
+- `deleteWork(id)` : `DELETE /api/works/:id` + header `Authorization: Bearer <token>`.
+  Puis `allWorks.filter(...)` et réaffichage des 2 galeries → maj sans recharger.
+
+### Vue ajout (formulaire)
+- Navigation entre vues = réutiliser des fonctions (passer `displayAddPhotoView`
+  SANS parenthèses à addEventListener).
+- Champ fichier caché + `<label for>` stylé = "faux bouton" d'upload.
+- `<select>` catégories rempli depuis `allCategories` (stocké comme `allWorks`).
+- Aperçu image : événement `change`, `fileInput.files[0]`, `URL.createObjectURL(file)`.
+
+### Envoi (POST)
+- Contrat vérifié : `POST /api/works`, champs `image` / `title` / `category`,
+  réponse 201. Route protégée (token).
+- `FormData` (multipart) pour envoyer un FICHIER (JSON ne peut pas).
+- ⚠️ NE PAS définir `Content-Type` : le navigateur ajoute la "boundary" multipart
+  automatiquement ; le fixer à la main casse l'upload. Garder juste `Authorization`.
+- Succès → `allWorks.push(newWork)`, `displayWorks`, `closeModal` (maj sans recharger).
+
+---
+
+## À faire ensuite
+- [ ] (Optionnel) Bouton "Valider" qui devient vert quand le formulaire est complet.
+- [ ] Finitions : validation W3C, responsive, Chrome+Firefox, README, déploiement.
