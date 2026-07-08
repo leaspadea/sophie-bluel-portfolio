@@ -42,6 +42,7 @@ function displayFilters(categories) {
     allButton.textContent = "Tous";
     allButton.classList.add("filter-btn");
     allButton.dataset.categoryId = "0";
+    allButton.classList.add("filter-btn", "active");
     filtersContainer.appendChild(allButton);
 
     categories.forEach((category) => {
@@ -55,6 +56,10 @@ function displayFilters(categories) {
     const buttons = filtersContainer.querySelectorAll(".filter-btn");
     buttons.forEach((button) => {
         button.addEventListener("click", () => {
+
+            buttons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+            
             const categoryId = Number(button.dataset.categoryId);
 
             if (categoryId === 0) {
@@ -291,6 +296,23 @@ function displayAddPhotoView() {
             alert("Erreur lors de l'ajout du projet.");
         }
     });
+
+    function updateSubmitButton() {
+        const isComplete =
+            fileInput.files[0] &&
+            titleInput.value !== "" &&
+            categorySelect.value !== "";
+
+        if (isComplete) {
+            submitButton.classList.add("active");
+        } else {
+            submitButton.classList.remove("active");
+        }
+    }
+
+    fileInput.addEventListener("change", updateSubmitButton);
+    titleInput.addEventListener("input", updateSubmitButton);
+    categorySelect.addEventListener("change", updateSubmitButton);
 
     modalContent.appendChild(form);
 }

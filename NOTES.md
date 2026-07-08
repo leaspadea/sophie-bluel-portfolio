@@ -179,6 +179,28 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
+## Finitions style + navigation
+- Bouton "Valider" du formulaire d'ajout : vert quand les 3 champs remplis
+  (événements `input`/`change`, toggle de classe).
+- Filtres : état "sélectionné" unique (retirer `active` de tous, l'ajouter au
+  cliqué) ; "Tous" actif par défaut. Style pilule vert plein / transparent.
+- Footer pleine largeur malgré `body { max-width:1140px }` : full-bleed
+  (`100vw` + `left:50%` + `transform:translateX(-50%)`) + `html{overflow-x:hidden}`
+  (sur html, PAS body, sinon le footer serait rogné). Texte aligné sur la zone
+  de contenu via `padding: 0 max(20px, calc((100vw-1140px)/2))` + `box-sizing:border-box`.
+- Footer collant sur page login courte : `body{display:flex;flex-direction:column;
+  min-height:100vh}` + `main{flex:1}`.
+- Nav : "projets"/"contact" = ancres (`#portfolio`/`#contact` sur l'accueil,
+  `./index.html#...` depuis le login). Page active en gras (classe `.active-page`).
+  Logo `<h1>` cliquable → accueil (`<a>` dans le h1, `color:inherit`).
+- Piège appris : envelopper du contenu dans une balise change la hiérarchie DOM
+  → casse les sélecteurs `>` (enfant direct → passer en descendant) et les
+  layouts flex définis sur le parent.
+
+---
+
 ## À faire ensuite
-- [ ] (Optionnel) Bouton "Valider" qui devient vert quand le formulaire est complet.
-- [ ] Finitions : validation W3C, responsive, Chrome+Firefox, README, déploiement.
+- [ ] Validation W3C (HTML + CSS).
+- [ ] Test responsive + Chrome/Firefox.
+- [ ] README.md.
+- [ ] Question du déploiement (backend Node → pas GitHub Pages seul).
