@@ -89,7 +89,39 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
+## Versionnement Git
+- Historique OpenClassrooms supprimé, réinitialisé pour n'avoir que mes commits.
+- `.gitignore` complet (node_modules, .env, fichiers OS, IDE).
+- Dépôt perso : https://github.com/leaspadea/sophie-bluel-portfolio
+- Règle du projet : 1 commit par fonctionnalité, poussé régulièrement.
+
+---
+
+## Page de connexion (login)
+
+### Page login.html
+- Reprend header/footer de l'accueil. Formulaire : email + password (labels
+  associés via for/id), bouton "Se connecter", `<p id="login-error">` pour
+  l'erreur. Fichier JS dédié `assets/login.js` (un JS par page).
+
+### Authentification (login.js)
+- Contrat API vérifié (pas deviné) :
+  - `POST http://localhost:5678/api/users/login` (⚠️ /api/**users**/login).
+  - Envoi : `{ email, password }`. Succès 200 → `{ userId, token }`.
+  - Erreurs : 401 (mauvais mdp), 404 (email inconnu).
+- `event.preventDefault()` : empêche le rechargement auto du formulaire, c'est
+  le JS qui gère.
+- Requête POST : `method`, `headers` (Content-Type application/json),
+  `body: JSON.stringify(...)` (objet JS → texte JSON pour l'envoi).
+- `response.ok` (true si 200–299). Si ok → stocke le token, redirige.
+- `localStorage.setItem("token", ...)` : garde le token entre les pages
+  (une variable JS serait perdue au changement de page).
+- Sécurité : même message d'erreur pour 401 et 404 (ne pas révéler si l'email
+  existe). Débat connu sur token en localStorage (XSS) — hors scope ici.
+- `window.location.href` : redirection vers l'accueil.
+
+---
+
 ## À faire ensuite
-- [ ] Versionner le travail sur mon propre dépôt GitHub (leaspadea).
-- [ ] Page de connexion (login) + authentification (token JWT).
-- [ ] Mode admin : modale d'ajout/suppression de projets.
+- [ ] Mode admin sur l'accueil (nav login→logout, bandeau édition, masquer filtres).
+- [ ] Modale d'ajout / suppression de projets.
