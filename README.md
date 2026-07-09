@@ -1,20 +1,89 @@
-# Portfolio-architecte-sophie-bluel
+# 🎨 Sophie Bluel — Portfolio d'architecte d'intérieur
 
-Code du projet 6 d'intégrateur web.
+> Partie dynamique (JavaScript) du site portfolio de l'architecte d'intérieur Sophie Bluel : galerie, filtres et espace d'administration connectés à une API REST.
 
-## Architecture
+## 🎯 Contexte du projet
 
-Ce repo git contient les 2 briques logicielles du projet 
-- Frontend
-- Backend
+Sophie Bluel, architecte d'intérieur, dispose d'un site portfolio statique. L'objectif est de le rendre **dynamique** et de lui ajouter un espace d'administration.
 
-## Pour le lancer le code
-### Backend
-Ouvrir le dossier Backend et lire le README.md
+**Mission :** développer la partie front-end dynamique en **JavaScript** (affichage de la galerie, filtres, page de connexion, ajout et suppression de projets) en consommant une **API REST**, à partir d'une base HTML/CSS et d'un back-end fournis par "le client".
 
-### Frontend
-Ouvrir le dossier Frontend et lancer liveserver de votre IDE
- 
-## Astuce
- 
-Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+## 🛠️ Technologies utilisées
+
+- **HTML5** — structure sémantique
+- **CSS3** — Flexbox, Grid, media queries (responsive), `calc()`, `aspect-ratio`
+- **JavaScript (ES6+)** — Fetch API, `async/await`, manipulation du DOM, `FormData`
+- **API REST** — back-end Node.js / Express / SQLite (fourni), authentification par token (JWT)
+- **Font Awesome** — bibliothèque d'icônes
+- **Google Fonts** — typographies (Syne, Work Sans)
+- **Git / GitHub** — versioning
+
+## ✨ Fonctionnalités principales
+
+- ✅ Affichage **dynamique** de la galerie depuis l'API
+- ✅ Filtres par catégorie
+- ✅ Page de connexion avec **authentification par token**
+- ✅ Espace administrateur : **ajout** (upload d'image via une modale) et **suppression** de projets
+- ✅ Mise à jour de la galerie **sans rechargement** de la page
+- ✅ Site responsive (mobile, tablette, desktop)
+- ✅ Code conforme aux standards W3C
+
+## 🚀 Installation et lancement
+
+> ⚠️ Ce projet nécessite un **back-end local** : il n'y a pas de démo en ligne (GitHub Pages n'exécute pas de serveur Node).
+
+**Prérequis :** [Node.js](https://nodejs.org/) et npm.
+
+1. **Cloner le dépôt**
+   ```bash
+   git clone https://github.com/leaspadea/sophie-bluel-portfolio.git
+   ```
+
+2. **Lancer le back-end (API)** dans un terminal :
+   ```bash
+   cd sophie-bluel-portfolio/Backend
+   npm install
+   npm start
+   ```
+   L'API tourne sur `http://localhost:5678` — **laisser ce terminal ouvert**.
+
+3. **Lancer le front-end**
+   Ouvrir `FrontEnd/index.html` avec l'extension **Live Server** de VS Code.
+
+**Compte de test** pour l'espace admin : `sophie.bluel@test.tld` / `S0phie`
+
+## 📐 Structure du projet
+
+```
+sophie-bluel-portfolio/
+├── Backend/                 # API fournie (Node.js / Express / SQLite)
+├── FrontEnd/
+│   ├── index.html           # page d'accueil
+│   ├── login.html           # page de connexion
+│   └── assets/
+│       ├── style.css        # styles
+│       ├── script.js        # logique de la page d'accueil
+│       ├── login.js         # logique de la connexion
+│       ├── icons/
+│       └── images/
+├── NOTES.md
+└── README.md
+```
+
+## 🎓 Compétences travaillées
+
+- Consommation d'une **API REST** (Fetch, `async/await`)
+- Manipulation **dynamique du DOM** (création, mise à jour, suppression d'éléments)
+- **Authentification** par token (JWT) et stockage via `localStorage`
+- Envoi de fichiers au serveur avec **`FormData`** (multipart)
+- Gestion des **événements** et des **formulaires**
+- Intégration responsive et validation W3C
+
+## 👤 Auteur
+
+**Léa Spadea** — Étudiante Intégratrice Web @ OpenClassrooms
+🔗 [LinkedIn](https://www.linkedin.com/in/lea-spadea/) · 💻 [GitHub](https://github.com/leaspadea)
+
+---
+
+*Projet réalisé dans le cadre de la formation Intégrateur Web (RNCP niveau 5) chez OpenClassrooms.*

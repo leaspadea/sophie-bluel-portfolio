@@ -213,8 +213,20 @@ soutenance). Mis à jour au fur et à mesure, après chaque étape validée.
 
 ---
 
+## Validation W3C (OK)
+- HTML (index + login) et CSS validés sans erreur.
+- Corrections faites :
+  - Modale déplacée : elle était entre `</head>` et `<body>` (interdit) → remise
+    dans le `<body>`. Et `<aside>` → `<div>` (role="dialog"/aria-modal non valides
+    sur un aside, valides sur un div ; un modal n'est pas un aside sémantiquement).
+  - CSS : `;` manquants / media query non fermée.
+- Warning laissé (non bloquant) : `#introduction` sans titre direct (le h2 est
+  dans l'`<article>`).
+
+---
+
 ## À faire ensuite
-- [ ] Validation W3C (HTML + CSS).
+- [ ] Test Chrome + Firefox.
 - [ ] Test responsive + Chrome/Firefox.
 - [ ] README.md.
 - [ ] Question du déploiement (backend Node → pas GitHub Pages seul).
