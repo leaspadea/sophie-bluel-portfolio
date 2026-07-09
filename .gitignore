@@ -12,3 +12,6 @@ Thumbs.db
 # Éditeurs / IDE
 .idea/
 .vscode/
+
+# Journal de bord personnel (local uniquement)
+NOTES.md
