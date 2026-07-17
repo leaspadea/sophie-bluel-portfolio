@@ -13,5 +13,6 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Journal de bord personnel (local uniquement)
+# Documents personnels (local uniquement)
 NOTES.md
+SOUTENANCE.md
