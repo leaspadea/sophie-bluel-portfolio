@@ -1,18 +1,8 @@
 
+import { getWorks, getCategories, addWork, deleteWork } from "./api.js";
+
 let allWorks = [];
 let allCategories = [];
-
-async function fetchWorks() {
-    const response = await fetch("http://localhost:5678/api/works");
-    const works = await response.json();
-    return works;
-}
-
-async function fetchCategories() {
-    const response = await fetch("http://localhost:5678/api/categories");
-    const categories = await response.json();
-    return categories;
-}
 
 function displayWorks(works) {
 
@@ -152,7 +142,7 @@ function displayModalGallery() {
 
         trashIcon.addEventListener("click", (event) => {
             event.preventDefault();
-            deleteWork(work.id);
+            handleDeleteWork(work.id);
         });
     });
 
@@ -282,15 +272,7 @@ function displayAddPhotoView() {
         formData.append("title", titleValue);
         formData.append("category", categoryValue);
 
-        const token = localStorage.getItem("token");
-
-        const response = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-        });
+        const response = await addWork(formData);
 
         if (response.ok) {
             const newWork = await response.json();
@@ -322,15 +304,8 @@ function displayAddPhotoView() {
     modalContent.appendChild(form);
 }
 
-async function deleteWork(id) {
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+async function handleDeleteWork(id) {
+    const response = await deleteWork(id);
 
     if (response.ok) {
         allWorks = allWorks.filter((work) => work.id !== id);
@@ -358,10 +333,10 @@ function handleAuth() {
 }
 
 async function init() {
-    allWorks = await fetchWorks();
+    allWorks = await getWorks();
     displayWorks(allWorks);
 
-    allCategories = await fetchCategories();
+    allCategories = await getCategories();
     displayFilters(allCategories);
 
     handleAuth();
