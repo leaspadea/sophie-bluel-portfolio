@@ -161,22 +161,59 @@ function displayModalGallery() {
     modalContent.appendChild(addButton);
 }
 
+// Affiche la 2e vue de la modale : le formulaire d'ajout d'un projet.
 function displayAddPhotoView() {
     const modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
 
+    // Flèche de retour vers la galerie.
     const backArrow = document.createElement("i");
     backArrow.classList.add("fa-solid", "fa-arrow-left", "modal-back");
     backArrow.addEventListener("click", displayModalGallery);
     modalContent.appendChild(backArrow);
 
+    // Titre de la vue.
     const title = document.createElement("h3");
     title.textContent = "Ajouter photo";
     modalContent.appendChild(title);
 
+    modalContent.appendChild(createAddPhotoForm());
+}
+
+// Construit le formulaire d'ajout (zone image + titre + catégorie + bouton).
+function createAddPhotoForm() {
     const form = document.createElement("form");
     form.classList.add("add-photo-form");
 
+    // Champs du formulaire (chacun construit par une fonction dédiée).
+    const { uploadZone, fileInput } = createImageUploadZone();
+    const { titleLabel, titleInput } = createTextField("Titre", "title");
+    const categoryLabel = createLabel("Catégorie", "category");
+    const categorySelect = createCategorySelect();
+    const submitButton = createSubmitButton();
+
+    form.append(uploadZone, titleLabel, titleInput, categoryLabel, categorySelect, submitButton);
+
+    // Le bouton devient vert quand les 3 champs sont remplis.
+    const refreshButtonState = () => {
+        const isComplete =
+            fileInput.files[0] && titleInput.value !== "" && categorySelect.value !== "";
+        submitButton.classList.toggle("active", Boolean(isComplete));
+    };
+    fileInput.addEventListener("change", refreshButtonState);
+    titleInput.addEventListener("input", refreshButtonState);
+    categorySelect.addEventListener("change", refreshButtonState);
+
+    // Envoi du formulaire.
+    form.addEventListener("submit", (event) =>
+        handleAddWork(event, fileInput, titleInput, categorySelect)
+    );
+
+    return form;
+}
+
+// Crée la zone d'upload : icône + bouton, et gère l'aperçu de l'image choisie.
+function createImageUploadZone() {
     const uploadZone = document.createElement("div");
     uploadZone.classList.add("upload-zone");
 
@@ -194,10 +231,9 @@ function displayAddPhotoView() {
     fileLabel.classList.add("upload-label");
     fileLabel.textContent = "+ Ajouter photo";
 
-    uploadZone.appendChild(icon);
-    uploadZone.appendChild(fileLabel);
-    uploadZone.appendChild(fileInput);
+    uploadZone.append(icon, fileLabel, fileInput);
 
+    // Aperçu dès qu'un fichier est sélectionné.
     fileInput.addEventListener("change", () => {
         const file = fileInput.files[0];
         if (!file) return;
@@ -215,23 +251,36 @@ function displayAddPhotoView() {
         fileLabel.style.display = "none";
     });
 
-    const titleLabel = document.createElement("label");
-    titleLabel.setAttribute("for", "title");
-    titleLabel.textContent = "Titre";
+    return { uploadZone, fileInput };
+}
+
+// Crée un label seul (utilisé pour la catégorie).
+function createLabel(text, forId) {
+    const label = document.createElement("label");
+    label.setAttribute("for", forId);
+    label.textContent = text;
+    return label;
+}
+
+// Crée un couple label + champ texte.
+function createTextField(labelText, id) {
+    const titleLabel = createLabel(labelText, id);
 
     const titleInput = document.createElement("input");
     titleInput.type = "text";
-    titleInput.id = "title";
-    titleInput.name = "title";
+    titleInput.id = id;
+    titleInput.name = id;
 
-    const categoryLabel = document.createElement("label");
-    categoryLabel.setAttribute("for", "category");
-    categoryLabel.textContent = "Catégorie";
+    return { titleLabel, titleInput };
+}
 
+// Crée la liste déroulante des catégories (remplie depuis l'API).
+function createCategorySelect() {
     const categorySelect = document.createElement("select");
     categorySelect.id = "category";
     categorySelect.name = "category";
 
+    // Option vide au départ pour ne rien présélectionner.
     const emptyOption = document.createElement("option");
     emptyOption.value = "";
     categorySelect.appendChild(emptyOption);
@@ -243,65 +292,48 @@ function displayAddPhotoView() {
         categorySelect.appendChild(option);
     });
 
+    return categorySelect;
+}
+
+// Crée le bouton de validation du formulaire.
+function createSubmitButton() {
     const submitButton = document.createElement("button");
     submitButton.type = "submit";
     submitButton.textContent = "Valider";
     submitButton.classList.add("validate-button");
+    return submitButton;
+}
 
-    form.appendChild(uploadZone);
-    form.appendChild(titleLabel);
-    form.appendChild(titleInput);
-    form.appendChild(categoryLabel);
-    form.appendChild(categorySelect);
-    form.appendChild(submitButton);
+// Valide, envoie le formulaire à l'API, puis met à jour l'affichage sans recharger.
+async function handleAddWork(event, fileInput, titleInput, categorySelect) {
+    event.preventDefault();
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    const file = fileInput.files[0];
+    const titleValue = titleInput.value;
+    const categoryValue = categorySelect.value;
 
-        const file = fileInput.files[0];
-        const titleValue = titleInput.value;
-        const categoryValue = categorySelect.value;
-
-        if (!file || titleValue === "" || categoryValue === "") {
-            alert("Merci de remplir tous les champs.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("image", file);
-        formData.append("title", titleValue);
-        formData.append("category", categoryValue);
-
-        const response = await addWork(formData);
-
-        if (response.ok) {
-            const newWork = await response.json();
-            allWorks.push(newWork);
-            displayWorks(allWorks);
-            displayModalGallery();
-        } else {
-            alert("Erreur lors de l'ajout du projet.");
-        }
-    });
-
-    function updateSubmitButton() {
-        const isComplete =
-            fileInput.files[0] &&
-            titleInput.value !== "" &&
-            categorySelect.value !== "";
-
-        if (isComplete) {
-            submitButton.classList.add("active");
-        } else {
-            submitButton.classList.remove("active");
-        }
+    // Les 3 champs doivent être remplis.
+    if (!file || titleValue === "" || categoryValue === "") {
+        alert("Merci de remplir tous les champs.");
+        return;
     }
 
-    fileInput.addEventListener("change", updateSubmitButton);
-    titleInput.addEventListener("input", updateSubmitButton);
-    categorySelect.addEventListener("change", updateSubmitButton);
+    // Corps multipart (image + texte).
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", titleValue);
+    formData.append("category", categoryValue);
 
-    modalContent.appendChild(form);
+    const response = await addWork(formData);
+
+    if (response.ok) {
+        const newWork = await response.json();
+        allWorks.push(newWork);   // mise à jour de l'état
+        displayWorks(allWorks);   // mise à jour du portfolio
+        displayModalGallery();    // mise à jour de la galerie modale
+    } else {
+        alert("Erreur lors de l'ajout du projet.");
+    }
 }
 
 async function handleDeleteWork(id) {
