@@ -4,8 +4,8 @@ import { getWorks, getCategories, addWork, deleteWork } from "./api.js";
 let allWorks = [];
 let allCategories = [];
 
+// Affiche une liste de travaux dans la galerie de l'accueil.
 function displayWorks(works) {
-
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = "";
 
@@ -25,6 +25,7 @@ function displayWorks(works) {
     });
 }
 
+// Génère les boutons de filtre et gère le filtrage au clic.
 function displayFilters(categories) {
     const filtersContainer = document.querySelector(".filters");
 
@@ -62,6 +63,7 @@ function displayFilters(categories) {
     });
 }
 
+// Active l'interface admin : bandeau, bouton "modifier", ouverture/fermeture de la modale.
 function displayAdminMode() {
     const banner = document.createElement("div");
     banner.classList.add("edit-banner");
@@ -103,17 +105,20 @@ function displayAdminMode() {
     portfolioTitle.after(editLink);
 }
 
+// Ouvre la modale sur la vue galerie.
 function openModal() {
     const modal = document.querySelector("#modal");
     modal.setAttribute("aria-hidden", "false");
     displayModalGallery();
 }
 
+// Ferme la modale.
 function closeModal() {
     const modal = document.querySelector("#modal");
     modal.setAttribute("aria-hidden", "true");
 }
 
+// Affiche la 1re vue de la modale : la galerie avec les corbeilles de suppression.
 function displayModalGallery() {
     const modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
@@ -336,6 +341,7 @@ async function handleAddWork(event, fileInput, titleInput, categorySelect) {
     }
 }
 
+// Supprime un travail via l'API, puis met à jour l'affichage sans recharger.
 async function handleDeleteWork(id) {
     const response = await deleteWork(id);
 
@@ -348,6 +354,7 @@ async function handleDeleteWork(id) {
     }
 }
 
+// Adapte l'affichage selon la connexion (mode admin si un token est présent).
 function handleAuth() {
     const token = localStorage.getItem("token");
     const loginLink = document.querySelector("#login-link");
@@ -364,6 +371,7 @@ function handleAuth() {
     }
 }
 
+// Point d'entrée : récupère les données de l'API et construit la page.
 async function init() {
     allWorks = await getWorks();
     displayWorks(allWorks);
