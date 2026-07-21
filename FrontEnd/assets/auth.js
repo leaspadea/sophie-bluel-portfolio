@@ -1,18 +1,24 @@
-import { getWorks, getCategories } from "./api.js";
-import { store } from "./store.js";
-import { displayWorks, displayFilters } from "./gallery.js";
+// ============================================================
+//  auth.js — Connexion et interface d'administration
+//  Détecte si l'utilisatrice est connectée (token) et adapte
+//  l'affichage de la page d'accueil en conséquence.
+// ============================================================
+
 import { openModal, closeModal } from "./modal.js";
 
 // Active l'interface admin : bandeau, bouton "modifier", ouverture/fermeture de la modale.
 function displayAdminMode() {
+    // Bandeau noir "Mode édition" en haut de la page.
     const banner = document.createElement("div");
     banner.classList.add("edit-banner");
     banner.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Mode édition';
     document.body.prepend(banner);
 
+    // Les filtres n'ont pas de sens en mode gestion.
     const filters = document.querySelector(".filters");
     filters.style.display = "none";
 
+    // Lien "modifier" à côté du titre "Mes Projets".
     const portfolioTitle = document.querySelector("#portfolio h2");
 
     const editLink = document.createElement("a");
@@ -47,31 +53,19 @@ function displayAdminMode() {
 }
 
 // Adapte l'affichage selon la connexion (mode admin si un token est présent).
-function handleAuth() {
+export function handleAuth() {
     const token = localStorage.getItem("token");
     const loginLink = document.querySelector("#login-link");
 
     if (token) {
+        // Connectée : "login" devient "logout" et l'interface admin s'active.
         loginLink.textContent = "logout";
         displayAdminMode();
 
         loginLink.addEventListener("click", (event) => {
             event.preventDefault();
-            localStorage.removeItem("token");
+            localStorage.removeItem("token"); // se déconnecter = jeter le token
             window.location.href = "./index.html";
         });
     }
 }
-
-// Point d'entrée : récupère les données de l'API et construit la page.
-async function init() {
-    store.works = await getWorks();
-    displayWorks(store.works);
-
-    store.categories = await getCategories();
-    displayFilters(store.categories);
-
-    handleAuth();
-}
-
-init();
