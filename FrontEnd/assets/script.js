@@ -1,8 +1,6 @@
 
 import { getWorks, getCategories, addWork, deleteWork } from "./api.js";
-
-let allWorks = [];
-let allCategories = [];
+import { store } from "./store.js";
 
 // Affiche une liste de travaux dans la galerie de l'accueil.
 function displayWorks(works) {
@@ -54,9 +52,9 @@ function displayFilters(categories) {
             const categoryId = Number(button.dataset.categoryId);
 
             if (categoryId === 0) {
-                displayWorks(allWorks);
+                displayWorks(store.works);
             } else {
-                const filteredWorks = allWorks.filter((work) => work.categoryId === categoryId);
+                const filteredWorks = store.works.filter((work) => work.categoryId === categoryId);
                 displayWorks(filteredWorks);
             }
         });
@@ -130,7 +128,7 @@ function displayModalGallery() {
     const gallery = document.createElement("div");
     gallery.classList.add("modal-gallery");
 
-    allWorks.forEach((work) => {
+    store.works.forEach((work) => {
         const figure = document.createElement("figure");
 
         const img = document.createElement("img");
@@ -290,7 +288,7 @@ function createCategorySelect() {
     emptyOption.value = "";
     categorySelect.appendChild(emptyOption);
 
-    allCategories.forEach((category) => {
+    store.categories.forEach((category) => {
         const option = document.createElement("option");
         option.value = category.id;
         option.textContent = category.name;
@@ -333,8 +331,8 @@ async function handleAddWork(event, fileInput, titleInput, categorySelect) {
 
     if (response.ok) {
         const newWork = await response.json();
-        allWorks.push(newWork);   // mise à jour de l'état
-        displayWorks(allWorks);   // mise à jour du portfolio
+        store.works.push(newWork);   // mise à jour de l'état
+        displayWorks(store.works);   // mise à jour du portfolio
         displayModalGallery();    // mise à jour de la galerie modale
     } else {
         alert("Erreur lors de l'ajout du projet.");
@@ -346,9 +344,9 @@ async function handleDeleteWork(id) {
     const response = await deleteWork(id);
 
     if (response.ok) {
-        allWorks = allWorks.filter((work) => work.id !== id);
+        store.works = store.works.filter((work) => work.id !== id);
         displayModalGallery();
-        displayWorks(allWorks);
+        displayWorks(store.works);
     } else {
         alert("Erreur lors de la suppression.");
     }
@@ -373,11 +371,11 @@ function handleAuth() {
 
 // Point d'entrée : récupère les données de l'API et construit la page.
 async function init() {
-    allWorks = await getWorks();
-    displayWorks(allWorks);
+    store.works = await getWorks();
+    displayWorks(store.works);
 
-    allCategories = await getCategories();
-    displayFilters(allCategories);
+    store.categories = await getCategories();
+    displayFilters(store.categories);
 
     handleAuth();
 }
