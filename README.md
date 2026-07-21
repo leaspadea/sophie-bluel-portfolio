@@ -13,6 +13,7 @@ Sophie Bluel, architecte d'intérieur, dispose d'un site portfolio statique. L'o
 - **HTML5** — structure sémantique
 - **CSS3** — Flexbox, Grid, media queries (responsive), `calc()`, `aspect-ratio`
 - **JavaScript (ES6+)** — Fetch API, `async/await`, manipulation du DOM, `FormData`
+- **Modules ES** — code organisé en modules (données, état, vues, point d'entrée)
 - **API REST** — back-end Node.js / Express / SQLite (fourni), authentification par token (JWT)
 - **Font Awesome** — bibliothèque d'icônes
 - **Google Fonts** — typographies (Syne, Work Sans)
@@ -62,11 +63,15 @@ sophie-bluel-portfolio/
 │   ├── login.html           # page de connexion
 │   └── assets/
 │       ├── style.css        # styles
-│       ├── script.js        # logique de la page d'accueil
-│       ├── login.js         # logique de la connexion
+│       ├── main.js          # point d'entrée de l'accueil
+│       ├── api.js           # appels à l'API (couche données)
+│       ├── store.js         # état partagé entre les modules
+│       ├── gallery.js       # galerie et filtres
+│       ├── modal.js         # modale (ajout / suppression)
+│       ├── auth.js          # connexion et mode administrateur
+│       ├── login.js         # logique de la page de connexion
 │       ├── icons/
 │       └── images/
-├── NOTES.md
 └── README.md
 ```
 
