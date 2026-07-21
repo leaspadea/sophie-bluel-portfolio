@@ -1,65 +1,7 @@
 
 import { getWorks, getCategories, addWork, deleteWork } from "./api.js";
 import { store } from "./store.js";
-
-// Affiche une liste de travaux dans la galerie de l'accueil.
-function displayWorks(works) {
-    const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
-
-    works.forEach((work) => {
-        const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        img.src = work.imageUrl;
-        img.alt = work.title;
-
-        const figcaption = document.createElement("figcaption");
-        figcaption.textContent = work.title;
-
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-
-        gallery.appendChild(figure);
-    });
-}
-
-// Génère les boutons de filtre et gère le filtrage au clic.
-function displayFilters(categories) {
-    const filtersContainer = document.querySelector(".filters");
-
-    const allButton = document.createElement("button");
-    allButton.textContent = "Tous";
-    allButton.classList.add("filter-btn");
-    allButton.dataset.categoryId = "0";
-    allButton.classList.add("filter-btn", "active");
-    filtersContainer.appendChild(allButton);
-
-    categories.forEach((category) => {
-        const button = document.createElement("button");
-        button.textContent = category.name;
-        button.classList.add("filter-btn");
-        button.dataset.categoryId = category.id;
-        filtersContainer.appendChild(button);
-    });
-
-    const buttons = filtersContainer.querySelectorAll(".filter-btn");
-    buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-
-            buttons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
-            
-            const categoryId = Number(button.dataset.categoryId);
-
-            if (categoryId === 0) {
-                displayWorks(store.works);
-            } else {
-                const filteredWorks = store.works.filter((work) => work.categoryId === categoryId);
-                displayWorks(filteredWorks);
-            }
-        });
-    });
-}
+import { displayWorks, displayFilters } from "./gallery.js";
 
 // Active l'interface admin : bandeau, bouton "modifier", ouverture/fermeture de la modale.
 function displayAdminMode() {
