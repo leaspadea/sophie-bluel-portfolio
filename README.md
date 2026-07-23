@@ -63,13 +63,14 @@ sophie-bluel-portfolio/
 │   ├── login.html           # page de connexion
 │   └── assets/
 │       ├── style.css        # styles
-│       ├── main.js          # point d'entrée de l'accueil
-│       ├── api.js           # appels à l'API (couche données)
-│       ├── store.js         # état partagé entre les modules
-│       ├── gallery.js       # galerie et filtres
-│       ├── modal.js         # modale (ajout / suppression)
-│       ├── auth.js          # connexion et mode administrateur
-│       ├── login.js         # logique de la page de connexion
+│       ├── js/
+│       │   ├── main.js      # point d'entrée de l'accueil
+│       │   ├── api.js       # appels à l'API (couche données)
+│       │   ├── store.js     # état partagé entre les modules
+│       │   ├── gallery.js   # galerie et filtres
+│       │   ├── modal.js     # modale (ajout / suppression)
+│       │   ├── auth.js      # connexion et mode administrateur
+│       │   └── login.js     # logique de la page de connexion
 │       ├── icons/
 │       └── images/
 └── README.md
