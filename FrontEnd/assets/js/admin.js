@@ -1,5 +1,5 @@
 // ============================================================
-//  auth.js — Connexion et interface d'administration
+//  admin.js — Connexion et interface d'administration
 //  Détecte si l'utilisatrice est connectée (token) et adapte
 //  l'affichage de la page d'accueil en conséquence.
 // ============================================================

@@ -7,7 +7,7 @@
 import { getWorks, getCategories } from "./api.js";
 import { store } from "./store.js";
 import { displayWorks, displayFilters } from "./gallery.js";
-import { handleAuth } from "./auth.js";
+import { handleAuth } from "./admin.js";
 
 async function init() {
     // 1. Les travaux : on les stocke puis on les affiche.

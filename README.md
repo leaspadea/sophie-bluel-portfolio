@@ -69,7 +69,7 @@ sophie-bluel-portfolio/
 │       │   ├── store.js     # état partagé entre les modules
 │       │   ├── gallery.js   # galerie et filtres
 │       │   ├── modal.js     # modale (ajout / suppression)
-│       │   ├── auth.js      # connexion et mode administrateur
+│       │   ├── admin.js     # connexion et mode administrateur
 │       │   └── login.js     # logique de la page de connexion
 │       ├── icons/
 │       └── images/
